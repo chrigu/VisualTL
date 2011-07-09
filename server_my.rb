@@ -3,7 +3,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'twitter_oauth'
-require 'erb'
+require 'json'
 
 enable :logging
 #enable :sessions

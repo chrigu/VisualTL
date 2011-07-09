@@ -30,7 +30,7 @@ get '/' do
 end
 
 get '/timeline' do
-  @client.home_timeline.inspect
+  @client.home_timeline.to_json
 end
 
 get '/mentions' do
@@ -39,7 +39,8 @@ get '/mentions' do
 end
 
 get '/javascript' do
-  file = File.new("response.srv", "r").to_json
+  @tweets = File.new("response.srv", "r").read()
+  erb :graph
 end
 
 get '/retweeted' do
