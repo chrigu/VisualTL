@@ -30,7 +30,7 @@ get '/' do
 end
 
 get '/timeline' do
-  @client.home_timeline.to_json
+  @client.home_timeline({:count => 200}).to_json
 end
 
 get '/mentions' do

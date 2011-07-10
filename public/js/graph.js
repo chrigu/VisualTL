@@ -38,7 +38,7 @@ function sketchProc(processing) {
         aUser = new User(user, 1);
         allUsers[user.screen_name] = aUser;
 
-        processing.println(user.screen_name + " " + allUsers[user.screen_name].user.screen_name)
+        //processing.println(user.screen_name + " " + allUsers[user.screen_name].user.screen_name)
       }
       
       var rtee = extractRt(tweets[i].text);
@@ -61,7 +61,6 @@ function sketchProc(processing) {
     var userNo = 1;
       
     processing.colorMode(processing.HSB, Object.size(allUsers), maxTweets,100);
-    //processing.println(processing.HSB + " " + Object.size(allUsers) + " " + maxTweets)
     
     //iterate through users and determine their x, and y positions + the colour
     for(var username in allUsers) {
@@ -84,7 +83,6 @@ function sketchProc(processing) {
       var aUser = allUsers[username];
       
       var i = 1;
-      var replies = 0;
       
       for(var j = 0;j< aUser.tweets.length;j++){
         
@@ -109,13 +107,51 @@ function sketchProc(processing) {
         var r = aUser.width*(1-f);
         processing.noStroke();
         
-        processing.println(aUser.x + " " + posY + " " + r)
+        //processing.println(aUser.x + " " + posY + " " + r)
         processing.ellipse(aUser.x, posY, r, r);
         
         i++;        
           
       }
       
+    }
+    
+    for(var username in allUsers) {
+      var aUser = allUsers[username];
+      
+      var i = 1;
+      var replies = 0;
+      
+      for(var j = 0;j< aUser.tweets.length;j++){
+        processing.println(getObjectClass(tweet));
+        var tweet = tweets[j];
+        
+        if(getObjectClass(tweet) == "Mention") {
+          processing.println("Mention");
+          var receiver = allUsers[tweet.to];
+          if(receiver != null && tweet.type == 1) {
+            processing.noFill();
+            processing.stroke(100,1,90);
+            var multiplicator;
+            if(receiver.x - aUser.x > 800/3){
+              multiplicator = 6;
+            } else {
+              multiplicator = 2;
+            }
+            
+            var contr_y = posY -((maxTweets*delta) + 30*(replies + 1));
+            var contr_y2 = posY + ((maxTweets*delta) + 30*(replies + 1));
+            
+            replies++;
+            
+            processing.bezier(aUser.x, aUser.y, (receiver.x-aUser.x)/4+aUser.x, contr_y, (receiver.x - aUser.x)*3/4+aUser.x, contr_y, receiver.x, receiver.y);
+            processing.bezier(aUser.x, aUser.y, (receiver.x-aUser.x)/4+aUser.x, contr_y2, (receiver.x - aUser.x)*3/4+aUser.x, contr_y2, receiver.x, receiver.y);
+          }
+        }
+        
+        i++;
+        
+      }
     }
     
   }; 
