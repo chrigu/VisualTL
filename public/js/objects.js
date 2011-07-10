@@ -11,7 +11,7 @@ function User(aUser, noTweets) {
   this.x = 0;
   this.y = 0;
   this.colour = 0;
-  this.user_width = 0; 
+  this.width = 0; 
   
 }
 
