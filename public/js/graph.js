@@ -46,9 +46,9 @@ function sketchProc(processing) {
 
       //not that nice, change one day....
       if(rtee != null) {
-        aUser.tweets.push(new Twet(aUser.screen_name, rtee, 1, tweets[i].text));
-      } else if(replyTo != null) {
         aUser.tweets.push(new Twet(aUser.screen_name, rtee, 2, tweets[i].text));
+      } else if(replyTo != null) {
+        aUser.tweets.push(new Twet(aUser.screen_name, replyTo, 1, tweets[i].text));
       } else {
         a = new Tweet(aUser.screen_name, tweets[i].text);
         aUser.tweets.push(new Twet(aUser.screen_name, null, 0, tweets[i].text));
@@ -82,54 +82,19 @@ function sketchProc(processing) {
       var aUser = allUsers[username];
       
       var i = 1;
-      processing.println(username + " " + aUser.noOfTweets);
-      for(var j = 0;j< aUser.noOfTweets-1;j++){
-        
-        var tweet = tweets[j];
-        //if(tweet.text != undefined) {
-        //console.log(tweet.type);
-        if(tweet.type == 1){
-          processing.println("fucka");
-          var retweetee = allUsers[tweet.to];
-          if(tweet.mentionType == 0) {
-            if(retweetee != null) {
-              processing.fill(retweetee.colour, i, 100);
-            } else {
-              processing.fill(aUser.colour, i, 95);
-            }
-          } else {
-            continue;
-          }
-        } else {
-          processing.fill(aUser.colour, i, 100);
-        }
-        
-        var f = (i-1)/aUser.noOfTweets;
-        var r = aUser.width*(1-f);
-        processing.noStroke();
-        
-        //processing.println(aUser.x + " " + posY + " " + r)
-        processing.ellipse(aUser.x, posY, r, r);
-        
-        i++;        
-          
-      }
-      
-    }
-    
-    for(var username in allUsers) {
-      var aUser = allUsers[username];
-      
-      var i = 1;
       var replies = 0;
       
-      for(var j = 0;j< aUser.tweets.length;j++){
-        var tweet = tweets[j];
-        //processing.println(tweet.tweetType);
-        if(tweet.tweetType == "Mention") {
-          processing.println("Mention");
+      processing.println(aUser.user.screen_name + " " + aUser.noOfTweets);
+      
+      for(var j = 0;j< aUser.noOfTweets;j++){
+        
+        var tweet = aUser.tweets[j];
+
+        if(tweet.type == 1) {
+
           var receiver = allUsers[tweet.to];
-          if(receiver != null && tweet.mentionType == 1) {
+
+          if(receiver != null) {
             processing.noFill();
             processing.stroke(100,1,90);
             var multiplicator;
@@ -153,6 +118,45 @@ function sketchProc(processing) {
         
       }
     }
+    
+    for(var username in allUsers) {
+      
+      var aUser = allUsers[username];
+      var i = 1;
+
+      for(var j = 0;j< aUser.noOfTweets;j++){
+        
+        var tweet = aUser.tweets[j];
+
+        //in case of an RT
+        if(tweet.type == 2){
+          var retweetee = allUsers[tweet.to];
+          //if(tweet.mentionType == 2) {
+            if(retweetee != null) {
+              processing.fill(retweetee.colour, i, 100);
+            } else {
+              processing.fill(aUser.colour, i, 95);
+            }
+          //} else {
+           // continue;
+          //}
+        } else {
+          processing.fill(aUser.colour, i, 100);
+        }
+        
+        var f = (i-1)/aUser.noOfTweets;
+        var r = aUser.width*(1-f);
+        processing.noStroke();
+        
+        //processing.println(aUser.x + " " + posY + " " + r)
+        processing.ellipse(aUser.x, posY, r, r);
+        
+        i++;        
+          
+      }
+      
+    }
+    
     users = allUsers;
   }; 
 

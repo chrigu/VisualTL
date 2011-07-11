@@ -30,7 +30,8 @@ get '/' do
 end
 
 get '/timeline' do
-  @client.home_timeline({:count => 200}).to_json
+  @tweets = @client.home_timeline({:count => 200}).to_json
+  erb :graph
 end
 
 get '/mentions' do

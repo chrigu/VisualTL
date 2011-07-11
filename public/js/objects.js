@@ -36,9 +36,9 @@ function Mention(fromId, toId, theType, aTweet) {
   this.some = 4;
 }
 
-function Twet(fromId, toId, theType, aTweet) {
-  this.user = fromId;
-  this.text = aTweet;
-  this.to = toId;
-  this.type = theType; //0 = tweet, 1, 1 = Mention, 2 = RT
+function Twet(user, to, type, tweet) {
+  this.user = user;
+  this.text = tweet;
+  this.to = to;
+  this.type = type; //0 = tweet, 1 = Mention, 2 = RT
 }
