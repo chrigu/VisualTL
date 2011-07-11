@@ -12,13 +12,14 @@ function User(aUser, noTweets) {
   this.y = 0;
   this.colour = 0;
   this.width = 0; 
-  
 }
 
 function Tweet(userName, aTweet) {
   
   this.user = userName;
   this.text = aTweet;
+  this.tweetType = "Tweet"; //here I should do subclassing
+  this.some = 3;
   
 }
 
@@ -30,5 +31,14 @@ function Mention(fromId, toId, theType, aTweet) {
   this.user = fromId;
   this.text = aTweet;
   this.to = toId;
-  this.type= theType; //one could do subclasses here
+  this.mentionType= theType; //one could do subclasses here
+  this.tweetType = "Mention";
+  this.some = 4;
+}
+
+function Twet(fromId, toId, theType, aTweet) {
+  this.user = fromId;
+  this.text = aTweet;
+  this.to = toId;
+  this.type = theType; //0 = tweet, 1, 1 = Mention, 2 = RT
 }

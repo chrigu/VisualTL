@@ -43,14 +43,15 @@ function sketchProc(processing) {
       
       var rtee = extractRt(tweets[i].text);
       var replyTo = tweets[i].in_reply_to_screen_name;
-      
+
       //not that nice, change one day....
       if(rtee != null) {
-        aUser.tweets.push(new Mention(aUser.screen_name, rtee, 0, tweets[i].text));
-      } else if(replyTo != "") {
-        aUser.tweets.push(new Mention(aUser.screen_name, rtee, 1, tweets[i].text));
+        aUser.tweets.push(new Twet(aUser.screen_name, rtee, 1, tweets[i].text));
+      } else if(replyTo != null) {
+        aUser.tweets.push(new Twet(aUser.screen_name, rtee, 2, tweets[i].text));
       } else {
-        aUser.tweets.push(new Tweet(aUser.screen_name, tweets[i].text));
+        a = new Tweet(aUser.screen_name, tweets[i].text);
+        aUser.tweets.push(new Twet(aUser.screen_name, null, 0, tweets[i].text));
       }
            
     }
@@ -65,8 +66,6 @@ function sketchProc(processing) {
     //iterate through users and determine their x, and y positions + the colour
     for(var username in allUsers) {
       var aUser = allUsers[username];
-      
-      //processing.println(username);
       
       var user_width = aUser.noOfTweets * delta;
       aUser.width = user_width;
@@ -83,14 +82,16 @@ function sketchProc(processing) {
       var aUser = allUsers[username];
       
       var i = 1;
-      
-      for(var j = 0;j< aUser.tweets.length;j++){
+      processing.println(username + " " + aUser.noOfTweets);
+      for(var j = 0;j< aUser.noOfTweets-1;j++){
         
         var tweet = tweets[j];
-        
-        if(getObjectClass(tweet) == "Mention"){
+        //if(tweet.text != undefined) {
+        //console.log(tweet.type);
+        if(tweet.type == 1){
+          processing.println("fucka");
           var retweetee = allUsers[tweet.to];
-          if(tweet.type == 0) {
+          if(tweet.mentionType == 0) {
             if(retweetee != null) {
               processing.fill(retweetee.colour, i, 100);
             } else {
@@ -123,13 +124,12 @@ function sketchProc(processing) {
       var replies = 0;
       
       for(var j = 0;j< aUser.tweets.length;j++){
-        processing.println(getObjectClass(tweet));
         var tweet = tweets[j];
-        
-        if(getObjectClass(tweet) == "Mention") {
+        //processing.println(tweet.tweetType);
+        if(tweet.tweetType == "Mention") {
           processing.println("Mention");
           var receiver = allUsers[tweet.to];
-          if(receiver != null && tweet.type == 1) {
+          if(receiver != null && tweet.mentionType == 1) {
             processing.noFill();
             processing.stroke(100,1,90);
             var multiplicator;
@@ -153,7 +153,7 @@ function sketchProc(processing) {
         
       }
     }
-    
+    users = allUsers;
   }; 
 
   processing.draw = function() {  
@@ -181,16 +181,3 @@ function extractRt(aTweet){
    return null;
 }
 
-//get class name
-function getObjectClass(obj) {
-    if (obj && obj.constructor && obj.constructor.toString) {
-        var arr = obj.constructor.toString().match(
-            /function\s*(\w+)/);
-
-        if (arr && arr.length == 2) {
-            return arr[1];
-        }
-    }
-
-    return undefined;
-}
