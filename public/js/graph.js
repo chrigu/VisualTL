@@ -2,6 +2,8 @@ function sketchProc(processing) {
   // Override draw function, by default it will be called 60 times per second  
   processing.setup = function() {
     
+    debug = false;
+    
     var allUsers = new Object(); //"associative array" holding all twitter users that tweeted in the timeline
     Object.size = function(obj) {
     var size = 0, key;
@@ -13,7 +15,7 @@ function sketchProc(processing) {
 
     
     processing.background(255,255,255);
-    processing.size(800,600);
+    processing.size(900,600);
     
     var noOfTweets = tweets.length;
     var maxTweets = 0;
@@ -84,7 +86,8 @@ function sketchProc(processing) {
       var i = 1;
       var replies = 0;
       
-      processing.println(aUser.user.screen_name + " " + aUser.noOfTweets);
+      if(debug)
+        processing.println(aUser.user.screen_name + " " + aUser.noOfTweets);
       
       for(var j = 0;j< aUser.noOfTweets;j++){
         

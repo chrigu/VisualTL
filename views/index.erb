@@ -3,7 +3,7 @@
     <head>
         <title>VisualTimeLine</title>
         <meta charset="utf-8">
-        <meta name="description" content="HTML5 Starter Pack by Sickdesigner.com">
+        <meta name="description" content="Tiny visualization of twitter timelines">
         <link rel="Shortcut Icon" type="image/ico" href="img/favicon.png">
         <link rel="stylesheet" href="css/reset.css" type="text/css" media="screen">
         <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
@@ -16,17 +16,8 @@
         <!--[if IE 7]><link rel="stylesheet" href="css/ie/ie7.css" type="text/css" media="screen"><![endif]-->
         <!--[if lt IE 7]><link rel="stylesheet" href="css/ie/ie6.css" type="text/css" media="screen"><![endif]-->
     </head>
-    <body>
-	<header>
-	    <a href="#"><h1>VisualTimeline</h1></a>
-            <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Connect</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
-            </nav>
-	</header>
+    <body id="index">
+        <%= partial(:mainmenu) %>
         <div id="wrap">
             <article>
                 <section>

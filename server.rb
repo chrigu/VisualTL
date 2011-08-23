@@ -10,7 +10,7 @@ configure do
   @@config = YAML::load_file('config.yaml') rescue nil || {}
 end
 
-before do
+before '/timeline/*' do
   next if request.path_info =~ /ping$/
   @user = session[:user]
   @client = TwitterOAuth::Client.new(
@@ -23,27 +23,30 @@ before do
 end
 
 get '/' do
-  redirect '/timeline' if @user
-  @trends = @client.current_trends
-  @tweets = @client.public_timeline
-  erb :home
+  #redirect '/index.html'
+  #redirect '/timeline' if @user
+  #@trends = @client.current_trends
+  #@tweets = @client.public_timeline
+  erb :index
 end
 
-get '/timeline' do
+get '/timeline/graph' do
   @tweets = @client.home_timeline({:count => 200}).to_json
   erb :graph
 end
-
+"""
 get '/mentions' do
   @tweets = @client.mentions
   erb:timeline
 end
+"""
 
 get '/javascript' do
   @tweets = File.new("response.srv", "r").read()
   erb :graph
 end
 
+"""
 get '/retweeted' do
   @tweets = @client.retweeted_by_me
   erb:timeline
@@ -65,22 +68,23 @@ get '/search' do
   @search = @client.search(params[:q], :page => params[:page], :per_page => params[:per_page])
   erb :search
 end
+"""
 
 # store the request tokens and send to Twitter
-get '/connect' do
+get '/timeline/connect' do
   request_token = @client.request_token(
     :oauth_callback => @@config['callback_url']
   )
-
 
   session[:request_token] = request_token.token
   session[:request_token_secret] = request_token.secret
   redirect request_token.authorize_url.gsub('authorize', 'authenticate') 
 end
 
+
 # auth URL is called by twitter after the user has accepted the application
 # this is configured on the Twitter application settings page
-get '/auth' do
+get '/timeline/auth' do
   # Exchange the request token for an access token.
   
   begin
@@ -98,7 +102,7 @@ get '/auth' do
       session[:access_token] = @access_token.token
       session[:secret_token] = @access_token.secret
       session[:user] = true
-      redirect '/timeline'
+      redirect '/timeline/graph'
     else
       "fail" << @client.inspect
   end
