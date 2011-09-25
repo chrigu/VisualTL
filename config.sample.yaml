@@ -1,3 +1,4 @@
 consumer_key: YOUR_KEY
 consumer_secret: YOUR_SECRET
 callback_url: "http://127.0.0.1:4567/auth"
+session_secret: "changeme"

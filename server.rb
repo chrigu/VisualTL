@@ -5,9 +5,10 @@ require 'twitter_oauth'
 require 'yaml'
 
 configure do
+  @@config = YAML::load_file('config.yaml') rescue nil || {}
   set :logging, true
   set :sessions, true
-  @@config = YAML::load_file('config.yaml') rescue nil || {}
+  set :session_secret, @@config['session_secret']
 end
 
 before '/timeline/*' do
@@ -19,14 +20,11 @@ before '/timeline/*' do
     :token => session[:access_token],
     :secret => session[:secret_token]
   )
+  
   @rate_limit_status = @client.rate_limit_status
 end
 
 get '/' do
-  #redirect '/index.html'
-  #redirect '/timeline' if @user
-  #@trends = @client.current_trends
-  #@tweets = @client.public_timeline
   erb :index
 end
 
@@ -78,6 +76,7 @@ get '/timeline/connect' do
 
   session[:request_token] = request_token.token
   session[:request_token_secret] = request_token.secret
+  
   redirect request_token.authorize_url.gsub('authorize', 'authenticate') 
 end
 

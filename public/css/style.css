@@ -7,13 +7,17 @@ mark, rp, rt, ruby, summary, time{ display: inline }
 
 /* Site-wide properties ======================================================== */
 body{
-    font: normal normal 10px/10px Tahoma, Arial, Helvetica, Verdana, sans-serif; }
+    font: normal normal 10px/10px Tahoma, Arial, Helvetica, Verdana, sans-serif;
+    background: url('../res/vtl-top-bg.png') repeat-x;
+    
+    }
     
     /* Fibonacci based heading scale ratio */
     h1{ font-size: 4.4em; font-weight: normal; }
     h2{ font-size: 2.8em; font-weight: bold; }
     h3{ font-size: 1.6em; font-weight: bold; }
     h4{ font-size: 1.2em; font-weight: bold; }
+
 
 /* Reusable classes ============================================================ */
 
@@ -42,16 +46,18 @@ body{
 /* Basic Structure ============================================================= */
 
 #wrap{
-    margin: 0 auto;
-    position: relative;
-    width: 960px; }
+    margin: 0 auto;}
 
     /* Header */
     header{
-        width: 100%;
         height: 100px;
-    background: url('../res/vtl-logo.png') repeat-x;
+        margin: 0 auto;
+    
 	}
+    
+    header, #wrap {
+        max-width: 900px;
+    }
     
     /* Content */
     article{
@@ -73,10 +79,10 @@ body{
 
 h1{
    font: 44px 'Carter One', sans-serif;
-   color: #fff;
-   text-shadow: 0 -3px 0px #000;
+   color: #222;
+   text-shadow: 0 -3px 4px #aaa;
    float: left;
-   padding: 10px 0 0 50px;
+   padding: 10px 0 0 0px;
 }
 
 nav {
@@ -99,7 +105,8 @@ nav a {
     text-decoration: none;
     padding: 3px 10px;
     margin: 15px 20px 0 15px;
-    color: #fff;
+    color: #222;
+    /*
     background-color: #555;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -107,22 +114,22 @@ nav a {
     border-radius: 5px;
     -moz-box-shadow: 2px 2px 2px #000;
     -webkit-box-shadow: 1px 1px 2px #000;
-    box-shadow: 2px 2px 2px #000;
+    box-shadow: 2px 2px 2px #000;*/
 }
 
 nav a:hover {
     text-decoration: none;
     padding: 3px 10px;
     margin: 15px 20px 0 15px;
-    color: #fff;
-    background-color: #555;
+    text-shadow: #aaa 0 0 3px;
+    /*background-color: #555;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     -khtml-border-radius: 5px;
     border-radius: 5px;
     -moz-box-shadow: 0 0 0 #000;
     -webkit-box-shadow: 0 0 0 #000;
-    box-shadow: 0 0 0 #000;
+    box-shadow: 0 0 0 #000;*/
 }
 
 #wrap {
